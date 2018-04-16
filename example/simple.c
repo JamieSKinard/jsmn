@@ -21,6 +21,12 @@ static int jsoneq(const char *json, jsmntok_t *tok, const char *s) {
 }
 
 int main() {
+#ifdef DEBUG_MODE
+	printf("\n<JSON_STRING>\n");
+	printf("%s",JSON_STRING);
+	printf("\n===============\n");
+#endif
+
 	int i;
 	int r;
 	jsmn_parser p;
@@ -38,6 +44,12 @@ int main() {
 		printf("Object expected\n");
 		return 1;
 	}
+	
+#ifdef DEBUG_MODE
+	for (i = 0; i < r; i++) {
+		printf("[%2d] (%d) %d~%d, size:%d\n", i, t[i].type, t[i].start, t[i].end, t[i].size);
+	}
+#endif
 
 	/* Loop over all keys of the root object */
 	for (i = 1; i < r; i++) {

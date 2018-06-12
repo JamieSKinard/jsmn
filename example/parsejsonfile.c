@@ -34,7 +34,8 @@ int main() {
 	jsmntok_t t[128]; /* We expect no more than 128 tokens */
 	
 	char * JSON_STRING = readjsonfile("data.json");
-	printf("%s\n",JSON_STRING);
+	
+	printf("**Read the JSON file>>\n%s\n",JSON_STRING);
 	jsmn_init(&p);
 	r = jsmn_parse(&p, JSON_STRING, strlen(JSON_STRING), t, sizeof(t)/sizeof(t[0]));
 	
@@ -44,11 +45,11 @@ int main() {
 	}
 
 	printall(JSON_STRING, t, r);
-//	printkeys(JSON_STRING, t, r);
+	printkeys(JSON_STRING, t, r);
 	
-//	keycount = findkeys(JSON_STRING, t, r, keyarray);
+	keycount = findkeys(JSON_STRING, t, r, keyarray);
 	
-//	printvalues(JSON_STRING, t, r, keyarray);
+	printvalues(JSON_STRING, t, r, keyarray);
 
 	return EXIT_SUCCESS;
 }
@@ -144,11 +145,11 @@ void printvalues(const char *json, jsmntok_t *t, int tokcount, int *keys){
 
 	for (i = 1; i < tokcount; i++) {
 		iskey = 0;
-		for(j = 0; j <keycount; j++)
+		for(j = 0; j < keycount; j++)
 		{
-			if(i==keys[j])
+			if(i==keys[j]){
 			iskey = 1;
-			break;
+			break; }
 		}
 		
 		if(iskey == 1) {

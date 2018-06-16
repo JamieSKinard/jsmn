@@ -10,7 +10,7 @@ debug_example : simple_example
 debug_example : D_OPTION = -DDEBUG_MODE
 
 %.o: %.c jsmn.h
-	$(CC) $(D_OPTION) -c $(CFLAGS) $< -o $@
+	$(CC) -c -DJSMN_PARENT_LINKS $(CFLAGS) $< -o $@
 
 test: test_default test_strict test_links test_strict_links
 test_default: test/tests.c
@@ -38,13 +38,21 @@ jsondump: example/jsondump.o libjsmn.a
 	$(CC) $(LDFLAGS) $^ -o $@
 
 parsejsonfile: example/parsejsonfile.c libjsmn.a
-	$(CC) $(LEFLAGS) $^ -o $@
- 
+	$(CC) $(LDFLAGS) $^ -o $@
+
+mystore: mystore.c libjsmn.a
+	$(CC) $(LDFLAGS) $^ -o $@ 
+
+cars: OSS_21600137.c libjsmn.a
+	$(CC) $(LDFLAGS) $^ -o $@
+
 clean:
 	rm -f *.o example/*.o
 	rm -f *.a *.so
 	rm -f simple_example*
 	rm -f jsondump
+	rm -f parsejsonfile
+	rm -f mystore
 
 .PHONY: all clean test
 
